@@ -1,4 +1,5 @@
 #Thomas Rowley 
+#6/4/2021
 #Printing a multiplication table.
 # Using print statements
 # inout --> variable is a cntainer to keep data (need valid and unique name)

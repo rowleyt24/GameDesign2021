@@ -1,9 +1,9 @@
-print("What is the base?")
-base = int(input())
-print(type(base))
-print("Multiplication Table", base)
+print("What number would you like to make an addition table for?")
+additor = int(input())
+print(type(additor))
+print("Addition Table", additor)
 print()
 for x in range(1, 11):
-    resolved = base*x
-    print(base, "X", x, "=", (resolved))
+    resolved = additor+x
+    print(additor, "+", x, "=", (resolved))
     
