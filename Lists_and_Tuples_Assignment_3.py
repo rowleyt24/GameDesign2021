@@ -48,7 +48,7 @@ def pause():
     else:
         return False
 
-def option1():
+def addELEMENT():
     print("Add element to list.")
     print("What basketball player would you like to add?")
     answer= input()
@@ -58,7 +58,7 @@ def option1():
     print("Here is the new list.")
     print(playersLIST)
 
-def option2():
+def deleteELEMENT():
     print("Delete an element from the list.")
     print("What basketball player do you want to remove from the list?")
     print(playersLIST)
@@ -67,7 +67,7 @@ def option2():
     print("Here is the new list.")
     print(playersLIST)
 
-def option3():
+def findELEMENT():
     print("Find something in the list.")
     print("What would you like to find in the list.")
     print(playersLIST)
@@ -97,14 +97,14 @@ def option3():
     if answer !="KD":
         print("Your search is not contained in the list.")
 
-def option4():
+def findINDEX():
     print("Find the index of an element.")
     print(playersLIST)
     print("Insert the element you would like to index.")
     answer = str(input())
     print(playersLIST.index(answer))
 
-def option5():
+def reverseLIST():
     print("Reverse the order of the list.")
     print(playersLIST)
     print("Press enter to reverse the order of the list.")
@@ -117,31 +117,31 @@ while x !=6:
     if x==1:
         convert=True
         while convert:
-            option1()
+            addELEMENT()
             convert= pause()
 
     if x==2:
         convert=True
         while convert:
-            option2()
+            deleteELEMENT()
             convert= pause()
 
     if x==3:
         convert=True
         while convert:
-            option3()
+            findELEMENT()
             convert= pause()
 
     if x==4:
         convert=True
         while convert:
-            option4()
+            findINDEX()
             convert= pause()
 
     if x==5:
         convert=True
         while convert:
-            option5()
+            reverseLIST()
             convert= pause()
 
     if x==6:
