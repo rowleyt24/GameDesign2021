@@ -7,13 +7,17 @@
 # Show the word to the user with the characters guessed
 #play the game as long as the userhas turns or has guessed the word
 
-from Files import FILE
 import random
 import time
 import os
 import sys
+import datetime
 
+os.system("cls")
 x= 1
+name= ""
+date= datetime.datetime.now()
+todaysDATE= date.strftime("%x")
 
 l1="***************************************"
 l2="*             Word Game               *"
@@ -32,6 +36,14 @@ def pause():
     else:
         return False
 
+def updateWORD(word, guesses):    #This is a function that needs a value --->
+    for char in word:
+            #char=char.count(word)                            #Found the string but unsure how to use it!
+        if char in guesses:
+            print(char, end=" ")
+        else:
+            print("_", end =" ")
+
 def menu():
     print(l1)
     print(l2)
@@ -45,11 +57,29 @@ def menu():
     x= int(inputNUMBER)
     return x
 
+fileNAME= "Word_Game_1_HighScores.txt"
+
+def getSCORES(score):
+    os.system("cls")
+    time.sleep(0.5)
+    FILE= open(fileNAME, "r")
+    print(FILE.read())
+    input("Enter when you would like to stop viewing scores.")
+    FILE.close()
+
+def updatedSCORES(score):
+    FILE = open(fileNAME, "a")
+    line= "ON " + str(todaysDATE) + " - " + name + " HAD A SCORE OF " + str(score)
+    FILE.write(line)
+    FILE.write("\n")
+    FILE.close
+
+
 playersLIST= ["Lebron", "MJ", "Curry", "KD", "Granger", "Kobe", "Kareem", "Magic", "Hakeem", "Oscar", "Dirk", "Luka"]
 
-score= 0
 
 def playGAME():
+    score= 0
     answer= input("Do you want to guess a word?")
     answer=answer.upper()
 
@@ -57,16 +87,10 @@ def playGAME():
         print("Good luck", name, "!")
         word= random.choice(playersLIST)
         counter= len(word)
-        score= 0
         print(word)
         turns= 10  # should we consider controlling this number when he/she misses?
         guesses=""
-        for char in word:
-            #char=char.count(word)                            #Found the string but unsure how to use it!
-            if char in guesses:
-                print(char, end=" ")
-            else:
-                print("_", end =" ")
+        updateWORD(word, guesses)
         while turns>0 and counter >0:
             newGUESS=input("\n Give me a letter.")
             if newGUESS not in word:
@@ -77,12 +101,7 @@ def playGAME():
                 counter -=amount
                 print("Nice guess!")
                 guesses += newGUESS
-            for char in word:
-                #char=char.count(word)                            #Found the string but unsure how to use it!
-                if char in guesses:
-                    print(char, end=" ")
-                else:
-                    print("_", end =" ")
+            updateWORD(word, guesses)
         if(counter==0):
             print("You guessed right!")
             score += 1
@@ -91,6 +110,8 @@ def playGAME():
             print("Oops! Better luck next time!")
             print(score, "score is")
         answer= input("Would you like to play again?").upper()
+    updatedSCORES(score)
+    return score
 
 while x !=3:
     x= menu()
@@ -98,19 +119,11 @@ while x !=3:
         convert= True
         while convert:
             name=input("What is your name?")
-            playGAME()
+            score= playGAME()
             convert= pause()
 
     if x==2:
-        fileNAME= "Word_Game_1_HighScores.txt"
-        FILE = open(fileNAME, "w")
-        FILE.write(name, "had a score of", score)
-        FILE.close
-        time.sleep(0.5)
-        FILE= open(fileNAME, "r")
-        print(FILE.read())
-        input("Enter when you would like to stop viewing scores.")
-        FILE.close()
+        getSCORES(score)
         
     if x==3:
         print("Thank you for playing.")
