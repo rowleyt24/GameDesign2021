@@ -41,6 +41,11 @@ def levelTHREE():
     drawGRID()
 
 def menu():
+
+    gameTEXT= "Battleship Game"
+    gameFONTTEXT= mainFONT.render(gameTEXT, 1, SPY_GREEN)
+    screen.blit(gameFONTTEXT, (WIDTH/2 - gameFONTTEXT.get_width()/2, 40))
+
     levelONETEXT= "Level One"
     leveloneFONTTEXT= mainFONT.render(levelONETEXT, 1, SPY_GREEN)
     rect1= pygame.Rect((WIDTH/2 - leveloneFONTTEXT.get_width()/2), 150, 335, 75)
@@ -59,11 +64,17 @@ def menu():
     pygame.draw.rect(screen, BLACK, rect3)
     screen.blit(levelthreeFONTTEXT, (WIDTH/2 - levelthreeFONTTEXT.get_width()/2, 300))
 
+    scoresTEXT= "Scores"
+    scoresFONTTEXT= mainFONT.render(scoresTEXT, 1, SPY_GREEN)
+    rect4= pygame.Rect((WIDTH/2 - scoresFONTTEXT.get_width()/2), 375, 210, 75)
+    pygame.draw.rect(screen, BLACK, rect4)
+    screen.blit(scoresFONTTEXT, (WIDTH/2 - scoresFONTTEXT.get_width()/2, 375))
+
     quitTEXT= "Quit"
     quitFONTTEXT= mainFONT.render(quitTEXT, 1, SPY_GREEN)
-    rect4= pygame.Rect((WIDTH/2 - quitFONTTEXT.get_width()/2), 375, 135, 75)
-    pygame.draw.rect(screen, BLACK, rect4)
-    screen.blit(quitFONTTEXT, (WIDTH/2 - quitFONTTEXT.get_width()/2, 375))
+    rect5= pygame.Rect((WIDTH/2 - quitFONTTEXT.get_width()/2), 450, 135, 75)
+    pygame.draw.rect(screen, BLACK, rect5)
+    screen.blit(quitFONTTEXT, (WIDTH/2 - quitFONTTEXT.get_width()/2, 450))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -78,6 +89,8 @@ def menu():
             if rect3.collidepoint((mx, my)):
                 levelTHREE()
             if rect4.collidepoint((mx, my)):
+                menu()
+            if rect5.collidepoint((mx, my)):
                 pygame.quit()
     pygame.display.update()
 
