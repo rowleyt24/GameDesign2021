@@ -3,6 +3,9 @@
 
 
 import random, time, datetime, pygame, sys, os, math
+from pygame.constants import MOUSEBUTTONDOWN
+
+from pygame.time import Clock
 
 os.system("cls")
 pygame.init()
@@ -19,6 +22,7 @@ GREY= [116, 124, 138]
 WHITE= [255, 255, 255]
 BLACK= [0, 0, 0]
 SPY_GREEN= [21, 163, 61]
+RED= [255, 0, 0]
 
 screen.fill(BLACK)
 pygame.display.update()
@@ -28,20 +32,49 @@ mainFONT= pygame.font.Font("Final Project - Battleship Game\military_font_7.ttf"
 #block width
 blockWIDTH= 1
 
+#clock for scores
+clock= pygame.time.Clock()
+
 def levelONE():
     screen.fill(BLACK)
     drawGRID()
+    pygame.display.update()
+    for event in pygame.event.get():
+        if event.type== pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type== MOUSEBUTTONDOWN:
+            mx, my =pygame.mouse.get_pos() 
+            for squares in blockLIST: 
+                rect, check= squares
+                if check:
+                    if rect.collidepoint(mx, my):
+                        pygame.draw.rect(screen, RED, rect)
+                        blockLIST[1] = False
+    pygame.display.update()
+    
+    # pygame.time.Clock()
+    # pygame.time.Clock.tick()
 
 def levelTWO():
     screen.fill(BLACK)
     drawGRID()
+    pygame.display.update()
+    time.sleep(100)
 
 def levelTHREE():
     screen.fill(BLACK)
     drawGRID()
+    pygame.display.update()
+    time.sleep(100)
+
+def recordSCORE():
+    file= "Battleship_Scores.txt"
+    FILE= open(file, "w")
+    FILE.write("************BATTLESHIP SCORES************")
 
 def menu():
-
+    screen.fill(BLACK)
     gameTEXT= "Battleship Game"
     gameFONTTEXT= mainFONT.render(gameTEXT, 1, SPY_GREEN)
     screen.blit(gameFONTTEXT, (WIDTH/2 - gameFONTTEXT.get_width()/2, 40))
@@ -95,12 +128,16 @@ def menu():
     pygame.display.update()
 
 #grid created by using, https://stackoverflow.com/questions/33963361/how-to-make-a-grid-in-pygame
+blockLIST= []
 def drawGRID():
     blockSIZE= 80
     for x in range(0, WIDTH, blockSIZE):
         for y in range(0, HEIGHT, blockSIZE):
             rect= pygame.Rect(x, y, blockSIZE, blockSIZE)
+            check= bool(random.getrandbits(1))
+            blockLIST.append([rect, check])
             pygame.draw.rect(screen, SPY_GREEN, rect, blockWIDTH)
+    print(blockLIST)
 
 
 check= True
@@ -109,10 +146,5 @@ while check:
     for event in pygame.event.get():
         if event.type== pygame.QUIT:
             check= False
-
-
-
-
-
-    pygame.display.update()
 pygame.quit()
+sys.exit()
