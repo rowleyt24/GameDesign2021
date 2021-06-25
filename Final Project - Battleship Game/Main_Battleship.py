@@ -3,6 +3,7 @@
 
 
 import random, time, datetime, pygame, sys, os, math
+import threading
 from pygame.constants import MOUSEBUTTONDOWN
 
 from pygame.time import Clock
@@ -35,11 +36,22 @@ blockWIDTH= 1
 #clock for scores
 clock= pygame.time.Clock()
 
+blockLIST= []
+def drawGRID():
+    blockSIZE= 80
+    for x in range(0, WIDTH, blockSIZE):
+        for y in range(0, HEIGHT, blockSIZE):
+            rect= pygame.Rect(x, y, blockSIZE, blockSIZE)
+            check= bool(random.getrandbits(1))
+            blockLIST.append([rect, check])
+            pygame.draw.rect(screen, SPY_GREEN, rect, blockWIDTH)
+    print(blockLIST)
+
 def levelONE():
     screen.fill(BLACK)
     drawGRID()
     pygame.display.update()
-    for event in pygame.event.get():
+    """ for event in pygame.event.get():
         if event.type== pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -51,10 +63,17 @@ def levelONE():
                     if rect.collidepoint(mx, my):
                         pygame.draw.rect(screen, RED, rect)
                         blockLIST[1] = False
-    pygame.display.update()
+    """
+    #pygame.display.update()
     
     # pygame.time.Clock()
     # pygame.time.Clock.tick()
+
+def advanceToLevel():
+    screen.fill(BLACK)
+    drawGRID()
+    pygame.display.update()
+    #time.sleep(100)
 
 def levelTWO():
     screen.fill(BLACK)
@@ -111,14 +130,18 @@ def menu():
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            pygame.display.quit()
             pygame.quit()
-            sys.exit()
+            #sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = pygame.mouse.get_pos()
             if rect1.collidepoint((mx, my)):
-                levelONE()
+                t1 = threading.Thread(target=advanceToLevel, args=())
+                t1.start()
             if rect2.collidepoint((mx, my)):
-                levelTWO()
+                t1 = threading.Thread(target=levelTWO, args=())
+                t1.start()
+                #levelTWO()
             if rect3.collidepoint((mx, my)):
                 levelTHREE()
             if rect4.collidepoint((mx, my)):
@@ -128,16 +151,7 @@ def menu():
     pygame.display.update()
 
 #grid created by using, https://stackoverflow.com/questions/33963361/how-to-make-a-grid-in-pygame
-blockLIST= []
-def drawGRID():
-    blockSIZE= 80
-    for x in range(0, WIDTH, blockSIZE):
-        for y in range(0, HEIGHT, blockSIZE):
-            rect= pygame.Rect(x, y, blockSIZE, blockSIZE)
-            check= bool(random.getrandbits(1))
-            blockLIST.append([rect, check])
-            pygame.draw.rect(screen, SPY_GREEN, rect, blockWIDTH)
-    print(blockLIST)
+
 
 
 check= True
